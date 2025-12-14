@@ -1,0 +1,8 @@
+replicaCount: 2
+
+installCRDs: true
+
+nodeSelector:
+  worker: "true"
+
+resources: {}
