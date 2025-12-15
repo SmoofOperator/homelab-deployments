@@ -1,22 +1,21 @@
----
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cert-manager
+  name: traefik
   namespace: argocd
 spec:
   project: default
   source:
     repoURL: https://github.com/SmoofOperator/homelab-deployments.git
-    path: cert-manager
+    path: traefik
     targetRevision: main
     helm:
-      releaseName: cert-manager
+      releaseName: traefik
       valueFiles:
         - values.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: cert-manager
+    namespace: traefik
   syncPolicy:
     automated:
       prune: true

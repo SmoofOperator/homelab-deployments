@@ -3,4 +3,5 @@ kind: Kustomization
 
 resources:
   - clusterissuer-staging.yaml
-  - certificates/traefik-dashboard-cert.yaml
+  - traefik-tls.yaml
+  - secret-cf-token.yaml

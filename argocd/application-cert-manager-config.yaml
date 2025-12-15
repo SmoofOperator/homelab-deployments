@@ -4,8 +4,6 @@ metadata:
   name: cert-manager-config
   namespace: argocd
 spec:
-  dependsOn:
-    - name: cert-manager
   project: default
   source:
     repoURL: https://github.com/SmoofOperator/homelab-deployments.git

@@ -1,8 +1,2 @@
-replicaCount: 2
-
-installCRDs: true
-
-nodeSelector:
-  worker: "true"
-
-resources: {}
+cert-manager:
+  installCRDs: true

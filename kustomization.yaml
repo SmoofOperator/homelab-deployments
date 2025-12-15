@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
 - argocd/application-cert-manager.yaml
 - argocd/application-cert-manager-config.yaml
+- argocd/application-traefik.yaml
