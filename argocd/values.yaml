@@ -1,0 +1,21 @@
+crds:
+  install: true
+
+configs:
+  params:
+    server.insecure: true
+
+server:
+  extraArgs: []
+
+controller:
+  extraArgs: []
+
+repoServer:
+  extraArgs: []
+
+dex:
+  enabled: false
+
+redis:
+  enabled: true

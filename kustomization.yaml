@@ -6,3 +6,4 @@ resources:
 - argocd/application-cert-manager-config.yaml
 - argocd/application-traefik.yaml
 - argocd/application-argocd.yaml
+- argocd/application-nginx.yaml
