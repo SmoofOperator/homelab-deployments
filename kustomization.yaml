@@ -2,8 +2,8 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-- argocd/application-cert-manager.yaml
-- argocd/application-cert-manager-config.yaml
-- argocd/application-traefik.yaml
-- argocd/application-argocd.yaml
-- argocd/application-nginx.yaml
+- apps/application-cert-manager.yaml
+- apps/application-cert-manager-config.yaml
+- apps/application-traefik.yaml
+- apps/application-argocd.yaml
+- apps/application-nginx.yaml
