@@ -1,0 +1,39 @@
+replicaCount: 1
+
+image:
+  repository: adguard/adguardhome
+  tag: v0.107.52
+
+nodeSelector:
+  worker: "true"
+
+service:
+  dns:
+    enabled: true
+    type: LoadBalancer
+    port: 53
+    loadBalancerIP: 10.10.20.210
+  web:
+    enabled: true
+    type: ClusterIP
+    port: 3000
+
+env:
+  TZ: UTC
+
+persistence:
+  config:
+    enabled: true
+    storageClass: local-path
+    size: 1Gi
+  data:
+    enabled: true
+    storageClass: local-path
+    size: 5Gi
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    memory: 512Mi
