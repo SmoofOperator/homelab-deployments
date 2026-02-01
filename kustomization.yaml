@@ -7,3 +7,4 @@ resources:
 - apps/application-traefik.yaml
 #- apps/application-argocd.yaml
 #- apps/application-nginx.yaml
+- apps/application-jellyfin.yaml
