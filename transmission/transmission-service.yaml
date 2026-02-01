@@ -6,7 +6,7 @@ metadata:
   labels:
     app: transmission
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
     - port: 9091
       targetPort: 9091
