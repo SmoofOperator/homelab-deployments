@@ -5,6 +5,7 @@ resources:
 #- apps/application-argocd.yaml
 - apps/application-cert-manager.yaml
 - apps/application-cert-manager-config.yaml
+- apps/application-cloudflared.yaml
 - apps/application-jellyfin.yaml
 #- apps/application-nginx.yaml
 - apps/application-traefik.yaml
