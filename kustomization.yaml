@@ -9,5 +9,7 @@ resources:
 - apps/application-jackett.yaml
 - apps/application-jellyfin.yaml
 #- apps/application-nginx.yaml
+- apps/application-radarr.yaml
+- apps/application-sonarr.yaml
 - apps/application-traefik.yaml
 - apps/application-transmission.yaml
