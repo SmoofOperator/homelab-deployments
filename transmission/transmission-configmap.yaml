@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: transmission-configmap
+  namespace: media
+  labels:
+    app: transmission
+data:
+  TZ: "Europe/Stockholm"
+  VPN_SERVICE_PROVIDER: "mullvad"
+  VPN_TYPE: wireguard
+  SERVER_CITIES: "Stockholm"
+  WIREGUARD_ADDRESSES: "10.71.92.45/32"
+  WIREGUARD_ENDPOINT_PORT: "51820"
+  FIREWALL_VPN_INPUT_PORTS: "51413"
+  FIREWALL_INPUT_PORTS: "51413"
+  HEALTH_SERVER_ADDRESS: ":9999"
+  DNS: "1.1.1.1,8.8.8.8"
+  FIREWALL: "off"
+  DOT: "off"

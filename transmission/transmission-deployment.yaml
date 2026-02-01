@@ -1,0 +1,147 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: transmission
+  namespace: media
+  labels:
+    app: transmission
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: transmission
+  template:
+    metadata:
+      labels:
+        app: transmission
+    spec:
+      securityContext:
+        # linuxserver images commonly use s6-overlay and expect to start as root, then drop to PUID/PGID.
+        runAsUser: 0
+        runAsGroup: 0
+# THIS HAS NEVER BEEN TESTED AND MAY NOT BE NEEDED
+#  initContainers:
+#    - name: init-config
+#      image: busybox
+#      command:
+#        - sh
+#        - -c
+#        - |
+#          if [ ! -f /config/queue.json ]; then
+#            echo '{}' > /config/queue.json
+#          fi
+#      volumeMounts:
+#        - name: transmission-config
+#          mountPath: /config
+      containers:
+        - name: gluetun
+          image: qmcgaw/gluetun
+          lifecycle:
+            postStart:
+              exec:
+                command: ["/bin/sh", "-c", "(ip rule del table 51820; ip -6 rule del table 51820) || true"]
+          securityContext:
+            capabilities:
+              add: [NET_ADMIN, SYS_MODULE]
+            privileged: true
+            runAsNonRoot: false
+            runAsUser: 0
+          envFrom:
+            - secretRef:
+                name: mullvad-credentials
+            - configMapRef:
+                name: transmission-configmap
+          ports:
+            - containerPort: 9091
+              name: webui
+              protocol: TCP
+            - containerPort: 51413
+              name: torrent-tcp
+              protocol: TCP
+            - containerPort: 51413
+              name: torrent-udp
+              protocol: UDP
+            - containerPort: 9999
+              name: health
+              protocol: TCP
+          volumeMounts:
+            - name: dev-net-tun
+              mountPath: /dev/net/tun
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 9999
+            initialDelaySeconds: 60
+            periodSeconds: 60
+            timeoutSeconds: 10
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 9999
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            timeoutSeconds: 5
+
+        - name: transmission
+          image: lscr.io/linuxserver/transmission
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+              # Needed for LSIO s6 init to chown volumes and drop privileges to PUID/PGID.
+              # Also include DAC_OVERRIDE so root can actually repair permissions on existing files
+              # within mounted volumes (otherwise "Permission denied" can occur even as root).
+              add: ["CHOWN", "SETGID", "SETUID", "DAC_OVERRIDE", "FOWNER","NET_ADMIN", "SYS_MODULE"]
+          env:
+            - name: PUID
+              value: "0"
+            - name: PGID
+              value: "0"
+            - name: TZ
+              value: "Europe/Stockholm"
+          volumeMounts:
+            - name: transmission-config
+              mountPath: /config
+            - name: data
+              mountPath: /DATA
+            - name: watch
+              mountPath: /watch
+          livenessProbe:
+            httpGet:
+              path: /transmission/web/
+              port: 9091
+            initialDelaySeconds: 120
+            periodSeconds: 30
+            timeoutSeconds: 10
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /transmission/web/
+              port: 9091
+            initialDelaySeconds: 90
+            periodSeconds: 15
+            timeoutSeconds: 5
+          resources:
+            requests:
+              memory: 256Mi
+              cpu: 100m
+            limits:
+              memory: 1Gi
+              cpu: 500m
+
+      volumes:
+        - name: dev-net-tun
+          hostPath:
+            path: /dev/net/tun
+            type: CharDevice
+        - name: transmission-config
+          persistentVolumeClaim:
+            claimName: transmission-config
+        - name: data
+          persistentVolumeClaim:
+            claimName: nfs-data
+        - name: watch
+          emptyDir: {}
