@@ -8,6 +8,7 @@ resources:
 - apps/application-cloudflared.yaml
 - apps/application-jackett.yaml
 - apps/application-jellyfin.yaml
+- apps/application-longhorn.yaml
 #- apps/application-nginx.yaml
 - apps/application-radarr.yaml
 - apps/application-sonarr.yaml
