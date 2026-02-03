@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: seerr
+  namespace: media
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: seerr
+  template:
+    metadata:
+      labels:
+        app: seerr
+    spec:
+      containers:
+      - name: seerr
+        image: fallenbagel/jellyseerr
+        env:
+        - name: PUID
+          value: "0"
+        - name: PGID
+          value: "0"
+        - name: TZ
+          value: "Europe/Stockholm"
+        volumeMounts:
+        - name: config
+          mountPath: /app/config
+        ports:
+        - containerPort: 5055
+      volumes:
+      - name: config
+        persistentVolumeClaim:
+          claimName: seerr-config
