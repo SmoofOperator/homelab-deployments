@@ -8,11 +8,6 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`www.jackett.teklogi.systems`)
-      kind: Rule
-      services:
-        - name: jackett
-          port: 80
     - match: Host(`jackett.teklogi.systems`)
       kind: Rule
       services:

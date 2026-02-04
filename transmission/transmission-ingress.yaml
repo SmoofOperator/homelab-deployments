@@ -8,11 +8,6 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`www.trans.teklogi.systems`)
-      kind: Rule
-      services:
-        - name: transmission
-          port: 9091
     - match: Host(`trans.teklogi.systems`)
       kind: Rule
       services:
