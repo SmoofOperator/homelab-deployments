@@ -23,6 +23,13 @@ spec:
           mountPath: /DATA
         ports:
         - containerPort: 8096
+        resources:
+          limits:
+            nvidia.com/gpu: "1"
+      tolerations:
+      - key: "nvidia.com/gpu"
+        operator: "Exists"
+        effect: "NoSchedule"
       volumes:
       - name: config
         persistentVolumeClaim:
