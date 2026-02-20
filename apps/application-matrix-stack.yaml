@@ -1,0 +1,26 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: matrix-stack
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/SmoofOperator/homelab-deployments.git
+    path: matrix
+    targetRevision: main
+    helm:
+      releaseName: matrix-stack
+      valueFiles:
+        - values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: matrix
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      enabled: false
+    syncOptions:
+      - CreateNamespace=true

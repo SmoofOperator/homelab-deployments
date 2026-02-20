@@ -1,0 +1,25 @@
+elementAdmin:
+  ingress:
+    host: admin.teklogi.systems
+elementWeb:
+  ingress:
+    host: chat.teklogi.systems
+hookshot:
+  enabled: true
+matrixAuthenticationService:
+  ingress:
+    host: account.teklogi.systems
+matrixRTC:
+  ingress:
+    host: mrtc.teklogi.systems
+serverName: ess.teklogi.systems
+synapse:
+  ingress:
+    host: matrix.teklogi.systems
+ingress:
+  className: traefik
+  service:
+    type: ClusterIP
+networking:
+  ## Whether components should attempt to bind IPv4 (ipv4) /IPv6 (ipv6) / both (dual-stack)
+  ipFamily: ipv4

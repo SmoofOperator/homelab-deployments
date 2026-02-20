@@ -1,0 +1,6 @@
+apiVersion: v2
+name: matrix
+type: application
+version: 0.1.0
+appVersion: "26.2.1"
+description: Matrix ESS stack (synapse/media) manifests and storage
