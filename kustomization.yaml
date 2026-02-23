@@ -6,7 +6,6 @@ resources:
 - apps/application-cert-manager.yaml
 - apps/application-cert-manager-config.yaml
 - apps/application-cloudflared.yaml
-- apps/application-jackett.yaml
 - apps/application-jellyfin.yaml
 - apps/application-longhorn.yaml
 #- apps/application-nginx.yaml
